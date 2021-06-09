@@ -1,3 +1,5 @@
+@file:Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
+
 package cc.analythi.plugins
 
 import io.ktor.application.*
@@ -6,6 +8,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 
 
+@OptIn(KtorExperimentalLocationsAPI::class)
 fun Application.configureRouting() {
     install(Locations) {}
 

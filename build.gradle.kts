@@ -11,6 +11,12 @@ plugins {
     id ("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+}
+
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
     archiveBaseName.set("analythicc-uber")
 }
@@ -18,7 +24,7 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
 group = "cc.analythi"
 version = "0.0.1"
 application {
-    mainClass.set("cc.analythi.Application")
+    mainClass.set("cc.analythi.ApplicationKt")
 }
 
 repositories {
@@ -38,7 +44,11 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 
-    // dagger
-    implementation ("com.google.dagger:dagger:$daggerVersion")
-    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
+    // postgres jdbc driver
+    implementation("org.postgresql:postgresql:42.2.2")
+
+    // Koin for Ktor
+    implementation ("io.insert-koin:koin-ktor:3.0.2")
+    // SLF4J Logger
+    implementation ("io.insert-koin:koin-logger-slf4j:3.0.2")
 }

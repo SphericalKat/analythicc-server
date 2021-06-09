@@ -18,7 +18,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveBaseName.set("analythicc-uber")
+    archiveFileName.set("analythicc-uber.jar")
 }
 
 group = "cc.analythi"

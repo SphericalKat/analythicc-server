@@ -8,6 +8,6 @@ RUN ./gradlew shadowJar
 
 FROM openjdk:8-alpine
 WORKDIR /app
-COPY --from=builder /app/build/libs/analythicc-uber-0.0.1-all.jar /app
+COPY --from=builder /app/build/libs/analythicc-uber.jar /app
 EXPOSE 8080
-CMD ["java", "-jar", "analythicc-uber-0.0.1-all.jar"]
+CMD ["java", "-jar", "analythicc-uber.jar"]

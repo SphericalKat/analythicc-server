@@ -8,6 +8,11 @@ plugins {
     application
     kotlin("jvm") version "1.5.10"
     kotlin("kapt") version "1.5.10"
+    id ("com.github.johnrengelman.shadow") version "7.0.0"
+}
+
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+    archiveBaseName.set("analythicc-uber")
 }
 
 group = "cc.analythi"

@@ -18,7 +18,7 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
 group = "cc.analythi"
 version = "0.0.1"
 application {
-    mainClass.set("cc.analythi.ApplicationKt")
+    mainClass.set("cc.analythi.Application")
 }
 
 repositories {

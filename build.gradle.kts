@@ -3,6 +3,8 @@ val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
 val daggerVersion: String by project
+val koinVersion: String by project
+val psqlVersion: String by project
 
 plugins {
     application
@@ -45,10 +47,10 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 
     // postgres jdbc driver
-    implementation("org.postgresql:postgresql:42.2.2")
+    implementation("org.postgresql:postgresql:$psqlVersion")
 
     // Koin for Ktor
-    implementation ("io.insert-koin:koin-ktor:3.0.2")
+    implementation ("io.insert-koin:koin-ktor:$koinVersion")
     // SLF4J Logger
-    implementation ("io.insert-koin:koin-logger-slf4j:3.0.2")
+    implementation ("io.insert-koin:koin-logger-slf4j:$koinVersion")
 }

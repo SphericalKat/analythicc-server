@@ -2,10 +2,12 @@ val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
+val daggerVersion: String by project
 
 plugins {
     application
     kotlin("jvm") version "1.5.10"
+    kotlin("kapt") version "1.5.10"
 }
 
 group = "cc.analythi"
@@ -30,4 +32,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+
+    // dagger
+    implementation ("com.google.dagger:dagger:$daggerVersion")
+    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 }

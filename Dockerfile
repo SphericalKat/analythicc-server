@@ -6,7 +6,7 @@ RUN ./gradlew build || return 0 // dummy task to cache dependencies
 COPY . /app
 RUN ./gradlew shadowJar
 
-FROM openjdk:8-alpine
+FROM adoptopenjdk:11-jre
 WORKDIR /app
 COPY --from=builder /app/build/libs/analythicc-uber.jar /app
 EXPOSE 8080

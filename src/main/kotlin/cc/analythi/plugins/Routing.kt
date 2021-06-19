@@ -2,10 +2,16 @@
 
 package cc.analythi.plugins
 
+import cc.analythi.models.Site
+import cc.analythi.models.response.Message
 import io.ktor.application.*
+import io.ktor.http.*
 import io.ktor.locations.*
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 
 
 @OptIn(KtorExperimentalLocationsAPI::class)
@@ -14,29 +20,34 @@ fun Application.configureRouting() {
 
     routing {
         get("/") {
-            call.respondText("Hello World!")
+            call.respondText("OK")
         }
-        get<MyLocation> {
-            call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")
+        post("/analytics/sites") {
+            val site = call.receive<SiteBody>()
+            lateinit var newSite: Site
+            transaction {
+                newSite = Site.new {
+                    name = site.name
+                }
+            }
+            call.respond(SiteBody(name = newSite.name, id = newSite.id.toString()))
         }
-        // Register nested routes
-        get<Type.Edit> {
-            call.respondText("Inside $it")
-        }
-        get<Type.List> {
-            call.respondText("Inside $it")
+        get<SiteId> { siteId ->
+            var site: Site? = null
+            transaction {
+                site = Site.findById(UUID.fromString(siteId.id))
+            }
+
+            if (site == null) {
+                call.respond(HttpStatusCode.NotFound, Message(msg = "could not find a site with id ${siteId.id}"))
+            } else {
+                call.respond(HttpStatusCode.Found, SiteBody(name = site!!.name, id = site!!.id.toString()))
+            }
         }
     }
 }
 
-@Location("/location/{name}")
-class MyLocation(val name: String, val arg1: Int = 42, val arg2: String = "default")
+data class SiteBody(val name: String, val id: String)
 
-@Location("/type/{name}")
-data class Type(val name: String) {
-    @Location("/edit")
-    data class Edit(val type: Type)
-
-    @Location("/list/{page}")
-    data class List(val type: Type, val page: Int)
-}
+@Location("/analytics/sites/{id}")
+data class SiteId(val id: String)

@@ -6,6 +6,7 @@ import cc.analythi.plugins.configureHTTP
 import cc.analythi.plugins.configureMonitoring
 import cc.analythi.plugins.configureRouting
 import io.ktor.application.*
+import io.ktor.features.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.jetbrains.exposed.sql.Database
@@ -16,7 +17,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.koin.ktor.ext.Koin
 import org.koin.logger.SLF4JLogger
 
-private const val dbUrl = "jdbc:postgresql://localhost:5432/analythicc"
+private const val dbUrl = "jdbc:postgresql://localhost:5432/postgres"
 private const val driver = "org.postgresql.Driver"
 private const val username = "postgres"
 private const val password = "password"

@@ -2,6 +2,7 @@ package cc.analythi.plugins
 
 import io.ktor.application.*
 import io.ktor.features.*
+import io.ktor.gson.*
 import io.ktor.http.*
 
 fun Application.configureHTTP() {
@@ -27,5 +28,7 @@ fun Application.configureHTTP() {
     install(DefaultHeaders) {
         header("X-Engine", "Ktor") // will send this header with each response
     }
-
+    install(ContentNegotiation) {
+        gson() // pasing json data
+    }
 }

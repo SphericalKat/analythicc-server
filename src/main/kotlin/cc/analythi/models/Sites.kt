@@ -1,5 +1,6 @@
 package cc.analythi.models
 
+import cc.analythi.models.response.SiteResponse
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -16,4 +17,6 @@ class Site(id: EntityID<UUID>) : UUIDEntity(id) {
 
     var name by Sites.name
     val events by AnalyticsEvent referrersOn AnalyticsEvents.site
+
+    fun toModel() = SiteResponse(id = id.value, name = name, events = events.map { it.toModel() })
 }

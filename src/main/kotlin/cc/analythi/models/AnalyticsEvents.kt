@@ -1,5 +1,6 @@
 package cc.analythi.models
 
+import cc.analythi.models.response.EventResponse
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -31,4 +32,6 @@ class AnalyticsEvent(id: EntityID<UUID>) : UUIDEntity(id) {
     var location by AnalyticsEvents.location
     var device by AnalyticsEvents.device
     var site by Site referencedOn AnalyticsEvents.site
+
+    fun toModel() = EventResponse(id.value, type, time, page, referer, browser, location, device)
 }

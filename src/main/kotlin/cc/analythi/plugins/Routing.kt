@@ -2,12 +2,10 @@
 
 package cc.analythi.plugins
 
-import cc.analythi.models.AnalyticsEvent
 import cc.analythi.models.Site
-import cc.analythi.models.response.Message
 import cc.analythi.models.response.SiteResponse
 import io.ktor.application.*
-import io.ktor.http.*
+import io.ktor.features.*
 import io.ktor.locations.*
 import io.ktor.request.*
 import io.ktor.response.*
@@ -27,13 +25,13 @@ fun Application.configureRouting() {
         }
         post("/analytics/sites") {
             val site = call.receive<SiteResponse>()
-            lateinit var newSite: Site
+            lateinit var newSite: SiteResponse
             transaction {
                 newSite = Site.new {
                     name = site.name
-                }
+                }.toModel()
             }
-            call.respond(newSite.toModel())
+            call.respond(newSite)
         }
         get<SiteId> { siteId ->
             var response: SiteResponse? = null
@@ -44,14 +42,15 @@ fun Application.configureRouting() {
             }
 
             if (response == null) {
-                call.respond(HttpStatusCode.NotFound, Message(msg = "could not find a site with id ${siteId.id}"))
-            } else {
-                call.respond(response!!)
+                throw NotFoundException()
             }
+
+            call.respond(response!!)
         }
     }
 }
 
 
+@OptIn(KtorExperimentalLocationsAPI::class)
 @Location("/analytics/sites/{id}")
 data class SiteId(val id: String)

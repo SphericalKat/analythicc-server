@@ -5,6 +5,7 @@ val exposedVersion: String by project
 val daggerVersion: String by project
 val koinVersion: String by project
 val psqlVersion: String by project
+val valiktorVersion: String by project
 
 plugins {
     application
@@ -54,4 +55,7 @@ dependencies {
     implementation ("io.insert-koin:koin-ktor:$koinVersion")
     // SLF4J Logger
     implementation ("io.insert-koin:koin-logger-slf4j:$koinVersion")
+
+    // hibernate validator
+    implementation("org.valiktor:valiktor-core:$valiktorVersion")
 }

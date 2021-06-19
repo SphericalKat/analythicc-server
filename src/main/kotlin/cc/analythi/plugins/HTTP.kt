@@ -6,6 +6,7 @@ import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
 import io.ktor.response.*
+import org.valiktor.ConstraintViolationException
 
 fun Application.configureHTTP() {
     install(Compression) {
@@ -39,9 +40,18 @@ fun Application.configureHTTP() {
             call.respond(HttpStatusCode.NotFound, Message(error = cause.localizedMessage))
         }
 
+        // request validation error
+        exception<ConstraintViolationException> { cause ->
+            call.respond(
+                HttpStatusCode.UnprocessableEntity,
+                Message(errors = cause.constraintViolations.map { "'${it.value}' is not a valid value for property '${it.property}'" })
+            )
+        }
+
         // general error
         exception<Throwable> { cause ->
             call.respond(HttpStatusCode.InternalServerError, Message(error = cause.localizedMessage))
+            log.debug(cause.stackTraceToString())
         }
     }
 }

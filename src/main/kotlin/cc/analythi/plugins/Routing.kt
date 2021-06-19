@@ -12,6 +12,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.valiktor.validate
 import java.util.*
 
 
@@ -25,6 +26,7 @@ fun Application.configureRouting() {
         }
         post("/analytics/sites") {
             val site = call.receive<SiteResponse>()
+            site.validate()
             lateinit var newSite: SiteResponse
             transaction {
                 newSite = Site.new {

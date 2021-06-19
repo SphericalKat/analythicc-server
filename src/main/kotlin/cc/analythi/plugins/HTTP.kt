@@ -1,9 +1,11 @@
 package cc.analythi.plugins
 
+import cc.analythi.models.response.Message
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.http.*
+import io.ktor.response.*
 
 fun Application.configureHTTP() {
     install(Compression) {
@@ -29,6 +31,17 @@ fun Application.configureHTTP() {
         header("X-Engine", "Ktor") // will send this header with each response
     }
     install(ContentNegotiation) {
-        gson() // pasing json data
+        gson() // parsing json data
+    }
+    install(StatusPages) {
+        // not found exceptions
+        exception<NotFoundException> { cause ->
+            call.respond(HttpStatusCode.NotFound, Message(error = cause.localizedMessage))
+        }
+
+        // general error
+        exception<Throwable> { cause ->
+            call.respond(HttpStatusCode.InternalServerError, Message(error = cause.localizedMessage))
+        }
     }
 }
